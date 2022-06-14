@@ -22,45 +22,57 @@ List<Eruption> eruptions = new List<Eruption>()
 PrintEach(stratovolcanoEruptions, "Stratovolcano eruptions."); */
 
 // Execute Assignment Tasks here!
+// nb .Where() == "get me all the data where this condition is true"
 
-// how do I use FirstOrDefault
 // first eruption in Chile
-//IEnumerable<Eruption> chErup = eruptions.Where(c => c.Location == "Chile").Take(1);
-// IEnumerable<Eruption> ch = eruptions.FirstOrDefault(ch => ch.Location == "Chile").ToList();
-// PrintEach(chErup);
+Eruption chErup = eruptions.FirstOrDefault(c => c.Location == "Chile");
+Console.WriteLine(chErup);
 
 // first "Hawaii Is" eruption; if none, print "No Hawaiian Is eruption found"
-IEnumerable<Eruption> hwErup = eruptions.Where(hw => hw.Location == "Hawaiian Is").Take(1);
-Console.WriteLine(
-    $"{hwErup.ToString()}",
-    string.IsNullOrEmpty(hwErup.ToString()) ? "not a" : "a"
-);
+Eruption hwErup = eruptions.FirstOrDefault(h => h.Location == "Hawaiian Is");
+if(hwErup == null)
+{
+    Console.WriteLine("No Hawaiian Is eruption found");
+}
+else {
+    Console.WriteLine(hwErup);
+}
 
 // first eruption after 1900 AND in "New Zealand"
-IEnumerable<Eruption> nz = eruptions.Where(nz => nz.Location == "New Zealand" && nz.Year > 1900).Take(1);
-// PrintEach(nz);
+Eruption nzErup = eruptions.FirstOrDefault(nz => nz.Location == "New Zealand" && nz.Year > 1900);
+// Console.WriteLine(nzErup);
 
 // all eruptions where volcano's elevation is > 2000m
 IEnumerable<Eruption> twoThou = eruptions.Where(t => t.ElevationInMeters > 2000).ToList();
-// PrintEach(twoThou);
+PrintEach(twoThou);
 
-// how do I print the total #?
 // all eruptions where volcano's name starts with Z, and total number of eruptions
 IEnumerable<Eruption> zeta = eruptions.Where(z => z.Volcano.StartsWith("Z")).ToList();
-// PrintEach(zeta);
+PrintEach(zeta);
+Console.WriteLine(zeta.Count());
 
 // find highest elevation and print that integer
+// use highest elevation variable to find and print name of volcano with that name
 var highest = eruptions.Max(h => h.ElevationInMeters);
 Console.WriteLine(highest);
+foreach(var h in eruptions)
+{
+    if(h.ElevationInMeters == highest)
+    {
+        Console.WriteLine(h.Volcano);
+    }
+}
+// Eruption highestEl = eruptions.Where(h => h.ElevationInMeters == "3320");
 
-// how do I use this var to access names?
-// use highest elevation variable to find and print name of volcano with that elevation
-// IEnumerable<Eruption> hName = eruptions.Where()
 
-// how do I get the names only?
 // print all volcano names alphabetically
 IEnumerable<Eruption> alpha = eruptions.OrderBy(a => a.Volcano);
-// PrintEach(alpha);
+int x = 1;
+foreach(var a in alpha)
+{
+    Console.WriteLine($"{a.Volcano}");
+    x++;
+}
 
 // print all eruptions that happened before the year 1000 CE alphabetically by volcano name
 IEnumerable<Eruption> alphaThou = eruptions.OrderBy(a => a.Volcano).Where(a => a.Year < 1000);
@@ -75,6 +87,3 @@ static void PrintEach(IEnumerable<dynamic> items, string msg = "")
         Console.WriteLine(item.ToString());
     }
 }
-
-
-
